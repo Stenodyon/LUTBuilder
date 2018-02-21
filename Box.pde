@@ -24,4 +24,9 @@ public class Box
             far.z = a.z;
         }
     }
+
+    public Box translate(v3 vec)
+    {
+        return new Box(close.add(vec), far.add(vec));
+    }
 }
