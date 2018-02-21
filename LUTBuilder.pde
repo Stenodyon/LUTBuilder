@@ -53,6 +53,8 @@ import java.awt.datatransfer.*;
 import javax.swing.*;
 import java.io.*;
 Robot robot; 
+
+ClipboardData clipData;
 //-----------------------------
 
 /*
@@ -89,6 +91,7 @@ void setup()
     generate = new Button(250,275,425,50);
     generate.SetName("Build Circuit");
     progBar = new Progressbar(250,380,425,50);
+    clipData = new ClipboardData();
 
     //setup the robot
     try
@@ -251,9 +254,7 @@ void fileSelected(File selection)
 
 void typeString(String text) //I'm using the copy-paste version of it, feel free to change it if you want, I'm not too attached. 
 {
-    StringSelection stringSelection = new StringSelection(text);
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    clipboard.setContents(stringSelection, stringSelection);
+    clipData.setData(text);
     robot.keyPress('\n');
     robot.keyRelease('\n');
     robot.keyPress(CONTROL);

@@ -44,6 +44,11 @@ public class Builder
         return new Box(close, far);
     }
 
+    public void setBlock(int x, int y, int z, Blocks block)
+    {
+        setBlock(x, y, z, block, 0);
+    }
+
     public void setBlock(int x, int y, int z, Blocks block, int dir)
     {
         setBlock(new v3(x, y, z), block, dir);
@@ -62,7 +67,13 @@ public class Builder
 
     public void fill(int x1, int y1, int z1, int x2, int y2, int z2, Blocks block)
     {
-        fill(new Box(new v3(x1, y1, z1), new v3(x2, y2, z2)), block);
+        v3 a = new v3(x1, y1, z1);
+        //println(a.toString());
+        v3 b = new v3(x2, y2, z2);
+        //println(b.toString());
+        Box box = new Box(a, b);
+        //println(box.toString());
+        fill(box, block);
     }
 
     public void fill(Box area, Blocks block)

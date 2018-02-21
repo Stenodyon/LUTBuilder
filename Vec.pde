@@ -10,7 +10,7 @@ public class v3
 
     public v3(v3 copy)
     {
-        this.x = copy.x; this.y = copy.y; this.z = copy.y;
+        this.x = copy.x; this.y = copy.y; this.z = copy.z;
     }
 
     public v3 add(v3 other)
@@ -21,5 +21,10 @@ public class v3
     public v3 sub(v3 other)
     {
         return new v3(x - other.x, y - other.y, z - other.z);
+    }
+
+    public String toString()
+    {
+        return "(" + x + ", " + y + ", " + z + ")";
     }
 }

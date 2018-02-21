@@ -29,4 +29,9 @@ public class Box
     {
         return new Box(close.add(vec), far.add(vec));
     }
+
+    public String toString()
+    {
+        return "[" + close.toString() + " | " + far.toString() + "]";
+    }
 }
