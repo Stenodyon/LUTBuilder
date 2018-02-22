@@ -22,11 +22,12 @@ public class DecoderGenerator
         solveModules();
         println("Problems solved");
         println("Building stated at " + hour() + ":" + minute() + "." + second());
+        splash = "Building output lanes";
         buildOutput();
+        splash = "Building logic modules";
         buildModules();
-        println("Placing repeaters...");
+        splash = "Placing repeaters";
         placeRepeaters();
-        println("Done!");
         println("Building finished at " + hour() + ":" + minute() + "." + second());
     }
 
@@ -111,18 +112,20 @@ public class DecoderGenerator
 
     void buildOutput()
     {
+        progress = 0f;
         buildOutputLane(2);
         int availableLanes = 1;
         int leftToBuild = modules.length - 1;
         int y = 1;
         while(leftToBuild > 0)
         {
+            progress = 1f - ((float)leftToBuild / modules.length);
             int toCopy = min(availableLanes, leftToBuild);
             copyOutputLanes(toCopy, y * 2 + 2);
             availableLanes += toCopy;
             leftToBuild -= toCopy;
             y += toCopy;
-            println("Built output lane " + (y+1) + " of " + modules.length);
+            //println("Built output lane " + (y+1) + " of " + modules.length);
         }
     }
 
@@ -244,6 +247,7 @@ public class DecoderGenerator
 
     void buildInput()
     {
+        progress = 0f;
         builder.fill(2, -2, 0, 2, -2, 1, Blocks.IRON);
         builder.setBlock(2, -1, 0, Blocks.REPEATER, 2);
         builder.setBlock(2, -1, 1, Blocks.REDSTONE);
@@ -252,6 +256,7 @@ public class DecoderGenerator
         int x = 1;
         while(leftToBuild > 0)
         {
+            progress = 1f - ((float)leftToBuild / modules.length);
             int toCopy = min(availableLanes, leftToBuild);
             int depth = toCopy * 2 - 1;
             builder.clone(2, -2, 0, 2 + depth, -1, 1, x * 2 + 2, -2, 0);
@@ -259,10 +264,12 @@ public class DecoderGenerator
             leftToBuild -= toCopy;
             x += toCopy;
         }
+        progress = 1f;
     }
 
     void buildModules()
     {
+        progress = 0f;
         moduleLocationX = new int[8];
         moduleLocationY = new int[8];
         for(int y = 0; y < modules.length; y++)
@@ -365,13 +372,17 @@ public class DecoderGenerator
                     moduleLocationY[module] = y + 1;
                 }
             }
-            println("Built row " + (y + 1) + " of " + modules.length);
+            progress = (float)(y + 1) / modules.length;
+            //println("Built row " + (y + 1) + " of " + modules.length);
         }
+        splash = "Building input";
         buildInput();
+        progress = 1f;
     }
 
     void placeRepeaters()
     {
+        progress = 0f;
         // Input Lanes
         for(int x = 0; x < modules[0].length; x++)
         {
@@ -405,6 +416,7 @@ public class DecoderGenerator
                 }
             }
         }
+        progress = .5f;
         // Output Lanes
         for(int x = 7; x < modules[0].length; x += 7)
         {
@@ -425,5 +437,6 @@ public class DecoderGenerator
                 }
             }
         }
+        progress = 1f;
     }
 }
