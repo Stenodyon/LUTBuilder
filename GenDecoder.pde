@@ -31,11 +31,11 @@ public class DecoderGenerator
         v3 translation = new v3(translationX, 0, 1);
         builder.pushTranslation(translation);
         println("Building stated at " + hour() + ":" + minute() + "." + second());
-        splash = "Building output lanes";
+        splash = "[step 1/4] Building output lanes";
         buildOutput();
-        splash = "Building logic modules";
+        splash = "[step 2/4] Building logic modules";
         buildModules();
-        splash = "Placing repeaters";
+        splash = "[step 4/4] Placing repeaters";
         placeRepeaters();
         println("Building finished at " + hour() + ":" + minute() + "." + second());
         builder.popTranslation();
@@ -390,7 +390,7 @@ public class DecoderGenerator
             progress = (float)(y + 1) / modules.length;
             //println("Built row " + (y + 1) + " of " + modules.length);
         }
-        splash = "Building input";
+        splash = "[step 3/4] Building input";
         buildInput();
         progress = 1f;
     }
