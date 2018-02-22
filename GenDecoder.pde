@@ -14,7 +14,8 @@ public class DecoderGenerator
         String[] lines = loadStrings(path);
         parseModules(lines);
         println("File parsed");
-        builder = new Builder(new v3(0, 0, 0), Direction.SOUTH);
+        Direction dir = Direction.fromFacing(facing);
+        builder = new Builder(new v3(0, 0, 0), dir);
     }
 
     public void generate()

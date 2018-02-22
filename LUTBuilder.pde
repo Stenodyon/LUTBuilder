@@ -254,10 +254,10 @@ void fileSelected(File selection)
 
 void typeString(String text) //I'm using the copy-paste version of it, feel free to change it if you want, I'm not too attached. 
 {
-    clipData.setData(text);
     robot.keyPress('\n');
     robot.keyRelease('\n');
     robot.keyPress(CONTROL);
+    clipData.setData(text);
     robot.keyPress('V');
     robot.keyRelease('V');
     robot.keyRelease(CONTROL);

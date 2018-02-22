@@ -10,14 +10,12 @@ import java.io.*;
 public final class ClipboardData implements ClipboardOwner
 {
     /**
-     * Empty implementation of the ClipboardOwner interface.
      * @param aClipboard
      * @param aContents
      */
     @Override
     public void lostOwnership(Clipboard aClipboard, Transferable aContents)
     {
-        //do nothing
     }
 
     /**
