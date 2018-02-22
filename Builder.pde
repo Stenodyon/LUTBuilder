@@ -1,3 +1,4 @@
+import java.util.Stack;
 
 /*
     The builder takes care of build origin and direction
@@ -7,30 +8,47 @@ public class Builder
     public v3 origin;
     public Direction dir;
 
+    private v3 currentTranlation = v3.zero();
+    private Stack<v3> translationStack = new Stack<v3>();
+
     public Builder(v3 origin, Direction dir)
     {
         this.origin = origin;
         this.dir = dir;
     }
 
+    public void pushTranslation(v3 translation)
+    {
+        translationStack.push(translation);
+        currentTranlation.iadd(translation);
+    }
+
+    public void popTranslation()
+    {
+        if(translationStack.empty())
+            return;
+        v3 popped = translationStack.pop();
+        currentTranlation.isub(popped);
+    }
+
     public v3 buildSpaceToWorldSpace(v3 a)
     {
-        v3 out = new v3(a);
+        v3 out = a.add(currentTranlation);
         int temp;
         switch(dir)
         {
             case NORTH:
-                out.z = -a.z;
-                out.x = -a.x;
+                out.z = -out.z;
+                out.x = -out.x;
                 break;
             case EAST:
                 temp = out.x;
-                out.x = a.z;
+                out.x = out.z;
                 out.z = -temp;
                 break;
             case WEST:
                 temp = out.x;
-                out.x = -a.z;
+                out.x = -out.z;
                 out.z = temp;
                 break;
         }

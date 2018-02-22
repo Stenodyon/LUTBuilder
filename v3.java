@@ -18,13 +18,30 @@ public class v3
         return new v3(x + other.x, y + other.y, z + other.z);
     }
 
+    public v3 iadd(v3 other)
+    {
+        x += other.x; y += other.y; z += other.z;
+        return this;
+    }
+
     public v3 sub(v3 other)
     {
         return new v3(x - other.x, y - other.y, z - other.z);
     }
 
+    public v3 isub(v3 other)
+    {
+        x -= other.x; y -= other.y; z -= other.z;
+        return this;
+    }
+
     public String toString()
     {
         return "(" + x + ", " + y + ", " + z + ")";
+    }
+
+    public static v3 zero()
+    {
+        return new v3(0, 0, 0);
     }
 }

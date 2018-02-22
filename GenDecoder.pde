@@ -7,12 +7,14 @@ void genDecoder(String path, String facing, String reference, String side)
 public class DecoderGenerator
 {
     Boolean right;
+    Boolean rightRef;
     int[][] modules;
     Builder builder;
 
     public DecoderGenerator(String path, String facing, String reference, String side)
     {
         right = side == "RIGHT";
+        rightRef = reference == "RIGHT";
         String[] lines = loadStrings(path);
         parseModules(lines);
         println("File parsed");
@@ -24,6 +26,10 @@ public class DecoderGenerator
     {
         solveModules();
         println("Problems solved");
+        int translationX = rightRef ? 0 : -(modules[0].length * 2 + 3);
+        if(!right) translationX -= 1;
+        v3 translation = new v3(translationX, 0, 1);
+        builder.pushTranslation(translation);
         println("Building stated at " + hour() + ":" + minute() + "." + second());
         splash = "Building output lanes";
         buildOutput();
@@ -32,6 +38,7 @@ public class DecoderGenerator
         splash = "Placing repeaters";
         placeRepeaters();
         println("Building finished at " + hour() + ":" + minute() + "." + second());
+        builder.popTranslation();
     }
 
     void parseModules(String[] lines)
