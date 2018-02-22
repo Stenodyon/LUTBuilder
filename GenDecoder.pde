@@ -6,11 +6,13 @@ void genDecoder(String path, String facing, String reference, String side)
 
 public class DecoderGenerator
 {
+    Boolean right;
     int[][] modules;
     Builder builder;
 
     public DecoderGenerator(String path, String facing, String reference, String side)
     {
+        right = side == "RIGHT";
         String[] lines = loadStrings(path);
         parseModules(lines);
         println("File parsed");
@@ -101,14 +103,19 @@ public class DecoderGenerator
         int length = modules[0].length * 2;
         builder.fill(length + 2, -4, Y + 1, 2, -4, Y + 1, Blocks.IRON);
         builder.fill(length + 2, -3, Y + 1, 2, -3, Y + 1, Blocks.REDSTONE);
-        builder.setBlock(1, -4, Y + 1, Blocks.TORCH, 2);
+        int torchX = right ? 1 : length + 3;
+        int torchDir = right ? 2 : 1;
+        builder.setBlock(torchX, -4, Y + 1, Blocks.TORCH, torchDir);
     }
 
     void copyOutputLanes(int count, int Y)
     {
         int length = modules[0].length * 2;
         int depth = count * 2 - 1;
-        builder.clone(length + 2, -4, 2, 1, -3, 2 + depth, 1, -4, Y);
+        builder.clone(
+            length + 3, -4, 2 ,
+            1, -3, 2 + depth,
+            1, -4, Y);
     }
 
     void buildOutput()
@@ -419,6 +426,7 @@ public class DecoderGenerator
         }
         progress = .5f;
         // Output Lanes
+        int repeaterDir = right ? 3 : 1;
         for(int x = 7; x < modules[0].length; x += 7)
         {
             int X = x * 2 + 2;
@@ -430,10 +438,10 @@ public class DecoderGenerator
                 {
                     case 1:
                     case 6:
-                        builder.setBlock(X, -3, Y + 1, Blocks.REPEATER, 3);
+                        builder.setBlock(X, -3, Y + 1, Blocks.REPEATER, repeaterDir);
                         break;
                     default:
-                        builder.setBlock(X + 1, -3, Y + 1, Blocks.REPEATER, 3);
+                        builder.setBlock(X + 1, -3, Y + 1, Blocks.REPEATER, repeaterDir);
                         break;
                 }
             }
